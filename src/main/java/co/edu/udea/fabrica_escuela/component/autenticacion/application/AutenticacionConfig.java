@@ -64,18 +64,6 @@ public class AutenticacionConfig {
     }
 
     @Bean
-    public EntityModelMapper<PreRegister, PreRegisterData> preRegisterMapper(EntityModelMapper<EnumRole, RoleData> roleMapper) {
-        return PreRegisterMapper.builder()
-                .roleMapper(((RoleMapper) roleMapper))
-                .build();
-    }
-
-    @Bean
-    public EntityModelMapper<PasswordRecovery, PasswordRecoveryData> passwordRecoveryMapper() {
-        return new PasswordRecoveryMapper();
-    }
-
-    @Bean
     public AutenticacionUtils authUtils(AuthenticationManagerBuilder authManagerBuilder, JwtProvider jwtProvider, PasswordEncoder passwordEncoder) {
         return AutenticacionUtils.builder()
                 .authManagerBuilder(authManagerBuilder)
@@ -84,31 +72,11 @@ public class AutenticacionConfig {
                 .build();
     }
 
-    @Bean
-    public PreRegistrationService preRegistrationService(PreRegisterRepositoryGateway preRegisterRepositoryGateway, GmailMessageSender gmailMessageSender) {
-        return PreRegistrationServiceImpl.builder()
-                .gmailMessageSender(gmailMessageSender)
-                .preRegisterRepositoryGateway(preRegisterRepositoryGateway)
-                .build();
-    }
-
-    @Bean
-    public PasswordRecoveryService passwordRecoveryService(PasswordRecoveryRepositoryGateway passwordRecoveryRepositoryGateway, GmailMessageSender gmailMessageSender, AuthenticationService authenticationService) {
-        return PasswordRecoveryServiceImpl.builder()
-                .authenticationService(authenticationService)
-                .passwordRecoveryRepositoryGateway(passwordRecoveryRepositoryGateway)
-                .gmailMessageSender(gmailMessageSender)
-                .build();
-    }
-
-    @Bean
     public AuthenticationService authenticationService(
-            PreRegistrationService preRegistrationService,
             UserRepositoryGateway userRepositoryGateway,
             AutenticacionUtils authUtils
     ) {
         return AuthenticationServiceImpl.builder()
-                .preRegistrationService(preRegistrationService)
                 .userRepositoryGateway(userRepositoryGateway)
                 .authUtils(authUtils)
                 .build();

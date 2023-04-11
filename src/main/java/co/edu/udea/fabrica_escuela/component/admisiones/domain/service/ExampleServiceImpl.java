@@ -6,7 +6,9 @@ import co.edu.udea.fabrica_escuela.component.admisiones.domain.core.query.Exampl
 import co.edu.udea.fabrica_escuela.component.shared.domain.services.GenericServiceResponse;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
+@Service
 @RequiredArgsConstructor
 @Builder(toBuilder = true)
 public class ExampleServiceImpl implements ExampleService {
