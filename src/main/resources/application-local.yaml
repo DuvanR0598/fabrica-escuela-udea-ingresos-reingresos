@@ -1,0 +1,30 @@
+# ----------------------------------------------------------------------------------------------------------------------
+# DATABASE
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/inc_spc_db?createDatabaseIfNotExist=true
+    username: root
+    password: password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  sql:
+    init:
+      mode: always
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQL5Dialect
+    hibernate:
+      ddl-auto: update
+    generate-ddl: true
+# ----------------------------------------------------------------------------------------------------------------------
+# JWT
+security:
+  auth:
+    jwt:
+      secret: some-secret
+      expiration: 3600
+    password:
+      salt-rounds: 10 # Default is 10
+# ----------------------------------------------------------------------------------------------------------------------
