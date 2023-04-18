@@ -1,8 +1,8 @@
 package co.edu.udea.fabrica_escuela.component.autenticacion.domain.core.command;
 
 
-import co.edu.udea.fabrica_escuela.component.autenticacion.domain.core.User;
 import co.edu.udea.fabrica_escuela.component.autenticacion.domain.core.EnumRole;
+import co.edu.udea.fabrica_escuela.component.autenticacion.domain.core.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

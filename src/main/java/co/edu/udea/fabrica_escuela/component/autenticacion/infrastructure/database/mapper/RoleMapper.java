@@ -1,8 +1,8 @@
 package co.edu.udea.fabrica_escuela.component.autenticacion.infrastructure.database.mapper;
 
-import co.edu.udea.fabrica_escuela.component.shared.infrastructure.database.mapper.EntityModelMapper;
 import co.edu.udea.fabrica_escuela.component.autenticacion.domain.core.EnumRole;
 import co.edu.udea.fabrica_escuela.component.autenticacion.infrastructure.database.RoleData;
+import co.edu.udea.fabrica_escuela.component.shared.infrastructure.database.mapper.EntityModelMapper;
 
 import java.util.List;
 import java.util.stream.Collectors;

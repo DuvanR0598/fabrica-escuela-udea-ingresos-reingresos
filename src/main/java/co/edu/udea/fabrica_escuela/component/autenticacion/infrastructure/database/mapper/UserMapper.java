@@ -1,10 +1,10 @@
 package co.edu.udea.fabrica_escuela.component.autenticacion.infrastructure.database.mapper;
 
-import co.edu.udea.fabrica_escuela.component.autenticacion.domain.core.User;
-import co.edu.udea.fabrica_escuela.component.shared.infrastructure.database.mapper.EntityModelMapper;
 import co.edu.udea.fabrica_escuela.component.autenticacion.domain.core.EnumRole;
+import co.edu.udea.fabrica_escuela.component.autenticacion.domain.core.User;
 import co.edu.udea.fabrica_escuela.component.autenticacion.infrastructure.database.UserData;
 import co.edu.udea.fabrica_escuela.component.autenticacion.infrastructure.database.repository.RoleRepository;
+import co.edu.udea.fabrica_escuela.component.shared.infrastructure.database.mapper.EntityModelMapper;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

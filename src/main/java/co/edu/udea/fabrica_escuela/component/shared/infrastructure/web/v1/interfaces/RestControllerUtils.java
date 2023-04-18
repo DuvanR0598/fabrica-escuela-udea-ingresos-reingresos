@@ -24,7 +24,7 @@ public interface RestControllerUtils {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(GenericServerResponse.builder()
                         .ok(false)
-                        .message(this.getErrorsFromBindingResult(bindingResult))
+                        .response(this.getErrorsFromBindingResult(bindingResult))
                         .build());
     }
 
@@ -33,7 +33,7 @@ public interface RestControllerUtils {
         return ResponseEntity.status(HttpStatus.valueOf(response.getStatusCode()))
                 .body(GenericServerResponse.builder()
                         .ok(response.isOk())
-                        .message(response.getMessage())
+                        .response(response.getMessage())
                         .build());
     }
 

@@ -1,26 +1,16 @@
 package co.edu.udea.fabrica_escuela.component.autenticacion.application;
 
+import co.edu.udea.fabrica_escuela.component.autenticacion.domain.core.EnumRole;
 import co.edu.udea.fabrica_escuela.component.autenticacion.domain.core.User;
-import co.edu.udea.fabrica_escuela.component.autenticacion.domain.service.*;
-import co.edu.udea.fabrica_escuela.component.autenticacion.domain.service.gateway.PreRegisterRepositoryGateway;
-import co.edu.udea.fabrica_escuela.component.autenticacion.infrastructure.database.PasswordRecoveryData;
-import co.edu.udea.fabrica_escuela.component.autenticacion.infrastructure.database.PreRegisterData;
+import co.edu.udea.fabrica_escuela.component.autenticacion.domain.service.AuthenticationService;
+import co.edu.udea.fabrica_escuela.component.autenticacion.domain.service.AuthenticationServiceImpl;
+import co.edu.udea.fabrica_escuela.component.autenticacion.domain.service.gateway.UserRepositoryGateway;
 import co.edu.udea.fabrica_escuela.component.autenticacion.infrastructure.database.RoleData;
 import co.edu.udea.fabrica_escuela.component.autenticacion.infrastructure.database.UserData;
-import co.edu.udea.fabrica_escuela.component.autenticacion.infrastructure.database.mapper.PasswordRecoveryMapper;
-import co.edu.udea.fabrica_escuela.component.autenticacion.infrastructure.database.mapper.PreRegisterMapper;
 import co.edu.udea.fabrica_escuela.component.autenticacion.infrastructure.database.mapper.RoleMapper;
 import co.edu.udea.fabrica_escuela.component.autenticacion.infrastructure.database.mapper.UserMapper;
 import co.edu.udea.fabrica_escuela.component.autenticacion.infrastructure.database.repository.RoleRepository;
 import co.edu.udea.fabrica_escuela.component.shared.infrastructure.database.mapper.EntityModelMapper;
-import co.edu.udea.fabrica_escuela.config.messaging.GmailMessageSender;
-import co.gov.cancer.co.edu.udea.fabrica_escuela.component.personas.domain.service.*;
-import co.edu.udea.fabrica_escuela.component.autenticacion.domain.core.EnumRole;
-import co.edu.udea.fabrica_escuela.component.autenticacion.domain.core.PasswordRecovery;
-import co.edu.udea.fabrica_escuela.component.autenticacion.domain.core.PreRegister;
-import co.gov.cancer.spc.component.personas.domain.service.*;
-import co.edu.udea.fabrica_escuela.component.autenticacion.domain.service.gateway.PasswordRecoveryRepositoryGateway;
-import co.edu.udea.fabrica_escuela.component.autenticacion.domain.service.gateway.UserRepositoryGateway;
 import co.edu.udea.fabrica_escuela.config.security.jwt.JwtProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -72,6 +62,7 @@ public class AutenticacionConfig {
                 .build();
     }
 
+    @Bean
     public AuthenticationService authenticationService(
             UserRepositoryGateway userRepositoryGateway,
             AutenticacionUtils authUtils

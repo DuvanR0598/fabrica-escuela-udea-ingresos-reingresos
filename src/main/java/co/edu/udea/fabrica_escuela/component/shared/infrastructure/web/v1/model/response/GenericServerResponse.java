@@ -12,6 +12,6 @@ import lombok.Setter;
 public class GenericServerResponse {
 
     private boolean ok;
-    private Object message;
+    private Object response;
 
 }

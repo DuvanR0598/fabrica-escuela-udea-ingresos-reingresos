@@ -1,6 +1,6 @@
 package co.edu.udea.fabrica_escuela.component.autenticacion.infrastructure.web.v1.model.request;
 
-import co.edu.udea.fabrica_escuela.component.autenticacion.domain.core.command.UserLoginCommand;
+import co.edu.udea.fabrica_escuela.component.autenticacion.domain.core.command.UsuarioLoginCommand;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
@@ -20,8 +20,8 @@ public class UserLoginRequestDto {
     @NotBlank
     private String password;
 
-    public static UserLoginCommand toCommand(UserLoginRequestDto userLoginRequestDto) {
-        return UserLoginCommand.builder()
+    public static UsuarioLoginCommand toCommand(UserLoginRequestDto userLoginRequestDto) {
+        return UsuarioLoginCommand.builder()
                 .username(userLoginRequestDto.getUsername())
                 .password(userLoginRequestDto.getPassword())
                 .build();

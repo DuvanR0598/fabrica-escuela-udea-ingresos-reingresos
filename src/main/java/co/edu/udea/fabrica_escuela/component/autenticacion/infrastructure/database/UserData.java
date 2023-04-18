@@ -76,8 +76,6 @@ public class UserData {
     )
     private String password;
 
-
-
     @NotEmpty
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -85,6 +83,5 @@ public class UserData {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<RoleData> roles;
-
 
 }
