@@ -26,6 +26,7 @@ public class User implements UserDetails {
     private String password;
     private String address;
     private Set<? extends GrantedAuthority> grantedAuthorities;
+    private boolean active;
 
     public static User build(UserData userData) {
         Set<GrantedAuthority> authorities = userData.getRoles()
@@ -77,6 +78,6 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return this.active;
     }
 }

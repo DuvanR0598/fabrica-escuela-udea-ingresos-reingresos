@@ -82,6 +82,12 @@ public class UserData {
     )
     private String address;
 
+    @Column(
+            name = "active",
+            nullable = false
+    )
+    private boolean active;
+
     @NotEmpty
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

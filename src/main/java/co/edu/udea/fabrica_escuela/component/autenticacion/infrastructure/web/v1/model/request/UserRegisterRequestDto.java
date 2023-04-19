@@ -21,7 +21,7 @@ import java.util.Set;
 public class UserRegisterRequestDto {
 
     @NotEmpty
-    @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@udea\\.edu\\.co$", message = "Email no permitido")
+    @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@udea\\.edu\\.co$", message = "Email not allowed")
     private String email;
 
     @NotNull

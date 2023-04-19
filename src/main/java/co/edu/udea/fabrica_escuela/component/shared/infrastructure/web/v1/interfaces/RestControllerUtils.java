@@ -20,6 +20,11 @@ public interface RestControllerUtils {
                 .collect(Collectors.toMap(FieldError::getField, DefaultMessageSourceResolvable::getDefaultMessage));
     }
 
+    private ResponseEntity<Map<String, String>> getServerResponseErrorEntity(BindingResult bindingResult) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(this.getErrorsFromBindingResult(bindingResult));
+    }
+
     default ResponseEntity<GenericServerResponse> getServerErrorResponse(BindingResult bindingResult) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(GenericServerResponse.builder()

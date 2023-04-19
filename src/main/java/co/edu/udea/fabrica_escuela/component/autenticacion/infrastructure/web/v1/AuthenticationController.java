@@ -32,7 +32,7 @@ public class AuthenticationController implements RestControllerUtils {
     @PostMapping(path = "/register", consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> registerUser(@Valid @RequestBody UserRegisterRequestDto userRegisterRequestDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors())
-            return getServerResponseErrorEntity(bindingResult);
+            return getServerErrorResponse(bindingResult);
         try {
             UserRegisterCommand command = UserRegisterRequestDto
                     .toRegisterUserCommand(userRegisterRequestDto);
@@ -47,7 +47,7 @@ public class AuthenticationController implements RestControllerUtils {
     @PostMapping(path = "/login", consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> login(@Valid @RequestBody UserLoginRequestDto userLoginRequestDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return getServerResponseErrorEntity(bindingResult);
+            return getServerErrorResponse(bindingResult);
         }
         try {
         UserLoginCommand command = UserLoginRequestDto.toCommand(userLoginRequestDto);
@@ -73,11 +73,6 @@ public class AuthenticationController implements RestControllerUtils {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-    }
-
-    private ResponseEntity<Map<String, String>> getServerResponseErrorEntity(BindingResult bindingResult) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(this.getErrorsFromBindingResult(bindingResult));
     }
 
 }
