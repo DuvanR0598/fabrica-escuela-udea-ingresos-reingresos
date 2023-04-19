@@ -11,7 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Getter @Setter
 @RequiredArgsConstructor
 @Builder(toBuilder = true)
-public class AutenticacionUtils {
+public class AuthenticationUtils {
 
     private final AuthenticationManagerBuilder authManagerBuilder;
     private final JwtProvider jwtProvider;

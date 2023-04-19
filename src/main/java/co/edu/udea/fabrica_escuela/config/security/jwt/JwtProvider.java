@@ -7,10 +7,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 @Log
 @RequiredArgsConstructor
@@ -27,7 +29,11 @@ public class JwtProvider {
                 .setSubject(user.getUsername())
                 // --- We can add claims to the payload ---
                 //.addClaims(add some claims)
-                .claim("roles", user.getAuthorities())
+                .claim("roles", user.getAuthorities()
+                        .stream()
+                        .map(GrantedAuthority::getAuthority)
+                        .collect(Collectors.toList())
+                ).claim("email", user.getEmail())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(new Date().getTime() + this.expiration * 1000L))
                 .signWith(SignatureAlgorithm.HS256, this.secret).compact();
@@ -60,30 +66,44 @@ public class JwtProvider {
     }
 
     public String refreshToken(String token) {
-        token = token.replace("Bearer ", "");
-        if(!this.isTokenValid(token)) {
+        token = token.replace("Bearer ", "").trim();
+        if (!this.isTokenValid(token)) {
             return null;
         }
         String username = this.getUsernameFromToken(token);
+        String email = this.getClaimFromToken(token, String.class);
         List<GrantedAuthority> authorities = this.getRolesFromToken(token);
-        // System.out.println(new Gson().toJson(authorities));
         return Jwts.builder()
                 .setSubject(username)
-                // --- We can add claims to the payload ---
-                //.addClaims(add some claims)
-                .claim("roles", authorities)
+                .claim("roles", authorities
+                        .stream()
+                        .map(GrantedAuthority::getAuthority)
+                        .collect(Collectors.toList())
+                )
+                .claim("email", email)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(new Date().getTime() + this.expiration * 1000L))
-                .signWith(SignatureAlgorithm.HS256, this.secret).compact();
+                .signWith(SignatureAlgorithm.HS256, this.secret)
+                .compact();
+    }
+
+    private <T> T getClaimFromToken(String token, Class<T> valueType) {
+        return Jwts.parser()
+                .setSigningKey(this.secret)
+                .parseClaimsJws(token)
+                .getBody()
+                .get("email", valueType);
     }
 
     @SuppressWarnings("unchecked")
     public List<GrantedAuthority> getRolesFromToken(String token) {
-          return Jwts.parser()
+        return (List<GrantedAuthority>) Jwts.parser()
                 .setSigningKey(this.secret)
                 .parseClaimsJws(token)
                 .getBody()
-                .get("roles", List.class);
+                .get("roles", List.class).stream()
+                .map(role -> new SimpleGrantedAuthority(role.toString()))
+                .collect(Collectors.toList());
     }
 
 }

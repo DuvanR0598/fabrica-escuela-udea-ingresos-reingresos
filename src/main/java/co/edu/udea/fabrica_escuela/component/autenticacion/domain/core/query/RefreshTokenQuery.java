@@ -7,9 +7,9 @@ import lombok.Setter;
 
 @Getter @Setter
 @AllArgsConstructor
-@Builder(toBuilder = true)
-public class ExampleQuery {
+@Builder
+public class RefreshTokenQuery {
 
-    private String email;
+    private String token;
 
 }

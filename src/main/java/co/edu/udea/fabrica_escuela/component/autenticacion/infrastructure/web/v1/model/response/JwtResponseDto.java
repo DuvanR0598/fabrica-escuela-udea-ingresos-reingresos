@@ -12,11 +12,7 @@ import java.util.Collection;
 @Builder(toBuilder = true)
 public class JwtResponseDto {
 
-    private static final String TOKEN_PREFIX="Bearer";
-
     private boolean ok;
     private String token;
-    private String username;
-    private Collection<? extends GrantedAuthority> authorities;
 
 }

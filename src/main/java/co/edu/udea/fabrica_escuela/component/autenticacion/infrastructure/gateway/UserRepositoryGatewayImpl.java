@@ -7,6 +7,7 @@ import co.edu.udea.fabrica_escuela.component.autenticacion.infrastructure.databa
 import co.edu.udea.fabrica_escuela.component.shared.infrastructure.database.adapter.DatabaseAdapter;
 import co.edu.udea.fabrica_escuela.component.shared.infrastructure.database.mapper.EntityModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -22,37 +23,55 @@ public class UserRepositoryGatewayImpl
     }
 
     @Override
-    public Optional<User> findByEmail(String email) {
-        Optional<UserData> model = this.repository.findByEmail(email);
-        return model.map(this.entityModelMapper::toEntity);
+    public Optional<UserData> findByEmail(String email) {
+        UserData example = UserData.builder()
+                .email(email)
+                .build();
+        return this.findOneByCriteria(Example.of(example));
     }
 
     @Override
-    public Optional<User> findByUsername(String username) {
-        Optional<UserData> model = this.repository.findByUsername(username);
-        return model.map(this.entityModelMapper::toEntity);
+    public Optional<UserData> findByUsername(String username) {
+        UserData example = UserData.builder()
+                .username(username)
+                .build();
+        return this.findOneByCriteria(Example.of(example));
+    }
+
+    @Override
+    public Optional<User> findEntityByUsername(String username) {
+        Optional<UserData> userDataOptional = this.findByUsername(username);
+        return userDataOptional.map(this::toEntity);
     }
 
     @Override
     public boolean existsByEmail(String email) {
-        return this.repository.existsByEmail(email);
+        UserData example = UserData.builder()
+                .email(email)
+                .build();
+        return this.existsByCriteria(Example.of(example));
     }
 
     @Override
     public boolean existsByUsername(String username) {
-        return  this.repository.existsByUsername(username);
+        UserData example = UserData.builder()
+                .username(username)
+                .build();
+        return this.existsByCriteria(Example.of(example));
     }
 
     @Override
     public void updatePassword(User userToUpdate) {
-        Optional<UserData> userDataOptional = this.repository.findByEmail(userToUpdate.getEmail());
+        UserData example = UserData.builder()
+                .username(userToUpdate.getUsername())
+                .build();
+        Optional<UserData> userDataOptional = this.findOneByCriteria(Example.of(example));
         userDataOptional.ifPresent(userData -> userData.setPassword(userToUpdate.getPassword()));
     }
 
     @Override
-    public User save(User model) {
-        UserData userSaved = this.repository.save(this.entityModelMapper.toModel(model));
-        return this.entityModelMapper.toEntity(userSaved);
+    public void saveUser(User entity) {
+        this.saveEntity(entity);
     }
 
 }

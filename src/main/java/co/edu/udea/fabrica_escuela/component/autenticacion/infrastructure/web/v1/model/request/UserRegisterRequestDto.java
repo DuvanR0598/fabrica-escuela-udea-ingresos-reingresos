@@ -1,6 +1,6 @@
 package co.edu.udea.fabrica_escuela.component.autenticacion.infrastructure.web.v1.model.request;
 
-import co.edu.udea.fabrica_escuela.component.autenticacion.domain.core.EnumRole;
+import co.edu.udea.fabrica_escuela.component.autenticacion.domain.core.Role;
 import co.edu.udea.fabrica_escuela.component.autenticacion.domain.core.command.UserRegisterCommand;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -53,8 +53,6 @@ public class UserRegisterRequestDto {
                 .phoneNumber(userRegisterRequestDto.getPhoneNumber())
                 .password(userRegisterRequestDto.getPassword())
                 .address(userRegisterRequestDto.getAddress())
-                .registerDate(LocalDate.now())
-                .roles(Set.of(EnumRole.ROLE_USER))
                 .build();
     }
 

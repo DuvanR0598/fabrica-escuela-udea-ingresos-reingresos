@@ -1,6 +1,6 @@
 package co.edu.udea.fabrica_escuela.component.autenticacion.application;
 
-import co.edu.udea.fabrica_escuela.component.autenticacion.domain.core.EnumRole;
+import co.edu.udea.fabrica_escuela.component.autenticacion.domain.core.Role;
 import co.edu.udea.fabrica_escuela.component.autenticacion.domain.core.User;
 import co.edu.udea.fabrica_escuela.component.autenticacion.domain.service.AuthenticationService;
 import co.edu.udea.fabrica_escuela.component.autenticacion.domain.service.AuthenticationServiceImpl;
@@ -49,13 +49,13 @@ public class AutenticacionConfig {
     }
 
     @Bean
-    public EntityModelMapper<EnumRole, RoleData> roleMapper() {
+    public EntityModelMapper<Role, RoleData> roleMapper() {
         return new RoleMapper();
     }
 
     @Bean
-    public AutenticacionUtils authUtils(AuthenticationManagerBuilder authManagerBuilder, JwtProvider jwtProvider, PasswordEncoder passwordEncoder) {
-        return AutenticacionUtils.builder()
+    public AuthenticationUtils authUtils(AuthenticationManagerBuilder authManagerBuilder, JwtProvider jwtProvider, PasswordEncoder passwordEncoder) {
+        return AuthenticationUtils.builder()
                 .authManagerBuilder(authManagerBuilder)
                 .jwtProvider(jwtProvider)
                 .passwordEncoder(passwordEncoder)
@@ -65,7 +65,7 @@ public class AutenticacionConfig {
     @Bean
     public AuthenticationService authenticationService(
             UserRepositoryGateway userRepositoryGateway,
-            AutenticacionUtils authUtils
+            AuthenticationUtils authUtils
     ) {
         return AuthenticationServiceImpl.builder()
                 .userRepositoryGateway(userRepositoryGateway)

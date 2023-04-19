@@ -1,20 +1,26 @@
 package co.edu.udea.fabrica_escuela.component.autenticacion.domain.service;
 
-import co.edu.udea.fabrica_escuela.component.autenticacion.application.AutenticacionUtils;
+import co.edu.udea.fabrica_escuela.component.autenticacion.application.AuthenticationUtils;
+import co.edu.udea.fabrica_escuela.component.autenticacion.domain.core.Role;
 import co.edu.udea.fabrica_escuela.component.autenticacion.domain.core.User;
+import co.edu.udea.fabrica_escuela.component.autenticacion.domain.core.command.UserLoginCommand;
 import co.edu.udea.fabrica_escuela.component.autenticacion.domain.core.command.UserRegisterCommand;
-import co.edu.udea.fabrica_escuela.component.autenticacion.domain.core.query.ExampleQuery;
+import co.edu.udea.fabrica_escuela.component.autenticacion.domain.core.query.RefreshTokenQuery;
 import co.edu.udea.fabrica_escuela.component.autenticacion.domain.service.gateway.UserRepositoryGateway;
+import co.edu.udea.fabrica_escuela.component.autenticacion.infrastructure.web.v1.model.response.JwtResponseDto;
 import co.edu.udea.fabrica_escuela.component.shared.domain.services.RestServiceResponse;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.Set;
 
 @RequiredArgsConstructor
 @Transactional
@@ -22,67 +28,58 @@ import java.util.stream.Collectors;
 public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final UserRepositoryGateway userRepositoryGateway;
-    private final AutenticacionUtils authUtils;
-
-    private boolean existsByEmail(ExampleQuery emailExistenceQuery) {
-        return this.userRepositoryGateway.existsByEmail(emailExistenceQuery.getEmail());
-    }
+    private final AuthenticationUtils authUtils;
 
     @Override
     public RestServiceResponse<Void> registerUser(final UserRegisterCommand userRegisterCommand) {
-        boolean isAlreadyRegistered = this.userRepositoryGateway.existsByEmail(userRegisterCommand.getEmail());
-        if (isAlreadyRegistered) {
+        boolean emailAlreadyUsed = this.userRepositoryGateway.existsByEmail(userRegisterCommand.getEmail());
+        if (emailAlreadyUsed)
             return RestServiceResponse.of(HttpStatus.CONFLICT);
-        }
         User userToRegister = UserRegisterCommand.toEntity(userRegisterCommand);
+
         // Encrypt the password
         userToRegister.setPassword(this.authUtils.getPasswordEncoder()
                 .encode(userRegisterCommand.getPassword()));
 
         // Add authorities
-        userToRegister.setGrantedAuthorities(userRegisterCommand.getRoles()
-                .stream()
-                .map(enumRole -> new SimpleGrantedAuthority(enumRole.name()))
-                .collect(Collectors.toSet())
-        );
-        this.userRepositoryGateway.save(userToRegister);
+        userToRegister.setGrantedAuthorities(Set.of(new SimpleGrantedAuthority(Role.EnumRole.ROLE_USER.name())));
+
+        this.userRepositoryGateway.saveUser(userToRegister);
         return RestServiceResponse.of(HttpStatus.CREATED);
     }
 
-    //    /**
-//     * @param usuarioLoginCommand Command with necessary information to log in the user
-//     * @return The JWT generated for the passive session
-//     */
-//    @Override
-//    public RestServiceResponse<JwtResponseDto> loginUser(UsuarioLoginCommand usuarioLoginCommand) {
-//        Authentication authentication =
-//                this.authUtils.getAuthManagerBuilder()
-//                        .getObject().authenticate(new UsernamePasswordAuthenticationToken(
-//                                usuarioLoginCommand.getUsername(),
-//                                usuarioLoginCommand.getPassword())
-//                        );
-//
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
-//        String jwt = this.authUtils.getJwtProvider().generateToken(authentication);
+
+    @Override
+    public RestServiceResponse<JwtResponseDto> loginUser(UserLoginCommand userLoginCommand) {
+        Authentication authentication =
+                this.authUtils.getAuthManagerBuilder()
+                        .getObject().authenticate(new UsernamePasswordAuthenticationToken(
+                                userLoginCommand.getUsername(),
+                                userLoginCommand.getPassword())
+                        );
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwt = this.authUtils.getJwtProvider().generateToken(authentication);
 //        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-//
-//        return JwtResponseDto.builder()
-//                .token(jwt)
-//                .ok(Boolean.TRUE)
-//                .username(userDetails.getUsername())
-//                .authorities(userDetails.getAuthorities())
-//                .build();
-//    }
-//
-//    /**
-//     * @param token Current token to be validated and refreshed
-//     * @return The new token after validations
-//     */
-//    @Override
-//    public String refreshToken(String token) {
-//        return this.authUtils.getJwtProvider()
-//                .refreshToken(token);
-//    }
+
+        JwtResponseDto jwtResponseDto = JwtResponseDto.builder()
+                .token(jwt)
+                .ok(Boolean.TRUE)
+                .build();
+
+        return RestServiceResponse.of(HttpStatus.OK, jwtResponseDto);
+    }
+
+    @Override
+    public RestServiceResponse<JwtResponseDto> refreshToken(RefreshTokenQuery refreshTokenQuery) {
+        String token = this.authUtils.getJwtProvider()
+                .refreshToken(refreshTokenQuery.getToken());
+        JwtResponseDto response = JwtResponseDto.builder()
+                .ok(true)
+                .token(token)
+                .build();
+        return RestServiceResponse.of(HttpStatus.OK, response);
+    }
 //
 //    @Override
 //    public String getUsernameFromToken(String newToken) {
@@ -97,9 +94,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 //    }
 //
     @Override
-    public RestServiceResponse<Optional<User>> getByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> user = this.userRepositoryGateway.findByUsername(username);
-        return RestServiceResponse.of(HttpStatus.OK, user);
+    public RestServiceResponse<User> getByUsername(String username) throws UsernameNotFoundException {
+        Optional<User> userOptional = this.userRepositoryGateway.findEntityByUsername(username);
+        return userOptional.map(user -> RestServiceResponse.of(HttpStatus.OK, user))
+                .orElseGet(() -> RestServiceResponse.of(HttpStatus.NOT_FOUND));
     }
 //
 //    @Override

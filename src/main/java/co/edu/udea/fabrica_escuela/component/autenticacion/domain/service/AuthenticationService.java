@@ -1,18 +1,19 @@
 package co.edu.udea.fabrica_escuela.component.autenticacion.domain.service;
 
 import co.edu.udea.fabrica_escuela.component.autenticacion.domain.core.User;
+import co.edu.udea.fabrica_escuela.component.autenticacion.domain.core.command.UserLoginCommand;
 import co.edu.udea.fabrica_escuela.component.autenticacion.domain.core.command.UserRegisterCommand;
+import co.edu.udea.fabrica_escuela.component.autenticacion.domain.core.query.RefreshTokenQuery;
+import co.edu.udea.fabrica_escuela.component.autenticacion.infrastructure.web.v1.model.response.JwtResponseDto;
 import co.edu.udea.fabrica_escuela.component.shared.domain.services.RestServiceResponse;
-
-import java.util.Optional;
 
 public interface AuthenticationService {
 
     RestServiceResponse<Void> registerUser(UserRegisterCommand userRegisterCommand);
-//    RestServiceResponse<JwtResponseDto> loginUser(UsuarioLoginCommand usuarioLoginCommand);
-//    RestServiceResponse<String> refreshToken(String token);
+    RestServiceResponse<JwtResponseDto> loginUser(UserLoginCommand userLoginCommand);
+    RestServiceResponse<JwtResponseDto> refreshToken(RefreshTokenQuery refreshTokenQuery);
 //    RestServiceResponse<String> getUsernameFromToken(String newToken);
 //    RestServiceResponse<Collection<? extends GrantedAuthority>> getRolesFromToken(String newToken);
-    RestServiceResponse<Optional<User>> getByUsername(String username);
+    RestServiceResponse<User> getByUsername(String username);
 
 }
