@@ -17,6 +17,11 @@ public class UserRepositoryGatewayImpl
         extends DatabaseAdapter<User, UserData, Long, UserRepository>
         implements UserRepositoryGateway {
 
+    @Override
+    public void saveUser(User entity) {
+        this.saveEntity(entity);
+    }
+
     @Autowired
     public UserRepositoryGatewayImpl(UserRepository repository, EntityModelMapper<User, UserData> entityModelMapper) {
         super(repository, entityModelMapper);
@@ -67,11 +72,6 @@ public class UserRepositoryGatewayImpl
                 .build();
         Optional<UserData> userDataOptional = this.findOneByCriteria(Example.of(example));
         userDataOptional.ifPresent(userData -> userData.setPassword(userToUpdate.getPassword()));
-    }
-
-    @Override
-    public void saveUser(User entity) {
-        this.saveEntity(entity);
     }
 
 }

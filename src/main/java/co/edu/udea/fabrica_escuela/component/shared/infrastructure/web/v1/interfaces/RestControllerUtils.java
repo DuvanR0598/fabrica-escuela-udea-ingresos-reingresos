@@ -1,6 +1,5 @@
 package co.edu.udea.fabrica_escuela.component.shared.infrastructure.web.v1.interfaces;
 
-import co.edu.udea.fabrica_escuela.component.shared.domain.services.GenericServiceResponse;
 import co.edu.udea.fabrica_escuela.component.shared.infrastructure.web.v1.model.response.GenericServerResponse;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
@@ -32,15 +31,4 @@ public interface RestControllerUtils {
                         .response(this.getErrorsFromBindingResult(bindingResult))
                         .build());
     }
-
-
-    default ResponseEntity<GenericServerResponse> getResponseEntity(GenericServiceResponse response) {
-        return ResponseEntity.status(HttpStatus.valueOf(response.getStatusCode()))
-                .body(GenericServerResponse.builder()
-                        .ok(response.isOk())
-                        .response(response.getMessage())
-                        .build());
-    }
-
-
 }

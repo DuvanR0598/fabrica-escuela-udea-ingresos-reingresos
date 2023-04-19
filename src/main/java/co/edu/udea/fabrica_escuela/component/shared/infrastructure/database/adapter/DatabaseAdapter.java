@@ -15,14 +15,12 @@ public abstract class DatabaseAdapter<E,M, I, R extends JpaRepository<M, I> & Qu
     private final R repository;
     private final EntityModelMapper<E, M> entityModelMapper;
 
-    public M saveModel(M model) {
+    public M updateModel(M model) {
         return this.repository.save(model);
     }
 
     public void saveEntity(E entity) {
-        var model = this.toModel(entity);
-        var x = this.repository.save(model);
-        System.out.println(x);
+        this.repository.save(this.toModel(entity));
     }
 
     public Optional<M> findById(I id) {
