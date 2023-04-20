@@ -37,3 +37,5 @@ out/
 .vscode/
 *.log
 *.gz
+
+mysql_volume

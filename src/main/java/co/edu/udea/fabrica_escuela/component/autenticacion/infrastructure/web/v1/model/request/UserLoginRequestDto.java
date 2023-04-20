@@ -4,7 +4,6 @@ import co.edu.udea.fabrica_escuela.component.autenticacion.domain.core.command.U
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 
 @Getter
 @Setter
@@ -14,7 +13,6 @@ import javax.validation.constraints.Pattern;
 public class UserLoginRequestDto {
 
     @NotBlank
-    @Pattern(regexp = "^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$")
     private String username;
 
     @NotBlank

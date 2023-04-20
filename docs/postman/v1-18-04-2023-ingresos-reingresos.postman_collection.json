@@ -1,0 +1,378 @@
+{
+	"info": {
+		"_postman_id": "6770e04c-3b83-4626-b762-4a9c5ff774a0",
+		"name": "ingresos-reingresos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20132601"
+	},
+	"item": [
+		{
+			"name": "authentication/authorization",
+			"item": [
+				{
+					"name": "authentication",
+					"item": [
+						{
+							"name": "register-user",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"juan.cardona70@udea.edu.co\",\n    \"firstName\": \"Juan Camilo\",\n    \"lastName\": \"Cardona Calderón\",\n    \"phoneNumber\": \"+573122555475\",\n    \"password\": \"1234567890\",\n    \"address\": \"Crra 14# 8-21\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{server_uri_v1}}/authentication/register",
+									"host": [
+										"{{server_uri_v1}}"
+									],
+									"path": [
+										"authentication",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "login",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"juan.cardona69\",\n    \"password\": \"1234567890\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{server_uri_v1}}/authentication/login",
+									"host": [
+										"{{server_uri_v1}}"
+									],
+									"path": [
+										"authentication",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "refresh-token",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{bearer_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{api_url_local}}/authentication/refresh-token",
+									"host": [
+										"{{api_url_local}}"
+									],
+									"path": [
+										"authentication",
+										"refresh-token"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "recover-password",
+					"item": [
+						{
+							"name": "recover-account-request",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"juan.cardona69@udea.edu.co\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{server_uri_v1}}/authentication/recovery-email",
+									"host": [
+										"{{server_uri_v1}}"
+									],
+									"path": [
+										"authentication",
+										"recovery-email"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "change-password",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{bearer_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": 2,\n    \"oldPassword\": \"1234567898\",\n    \"newPassword\": \"1234567890\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{server_uri_v1}}/authentication/password",
+									"host": [
+										"{{server_uri_v1}}"
+									],
+									"path": [
+										"authentication",
+										"password"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "reset-password",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\":\"juan.cardona69@udea.edu.co\",\n    \"password\":\"0987654321\",\n    \"ticketId\":\"513fb9b4-1c0e-4efd-b95d-9484199457a9\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{server_uri_v1}}/authentication/recover-password",
+									"host": [
+										"{{server_uri_v1}}"
+									],
+									"path": [
+										"authentication",
+										"recover-password"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "admin",
+			"item": [
+				{
+					"name": "user",
+					"item": [
+						{
+							"name": "find-user-information",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{bearer_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{server_uri_v1}}/users/juan.cardona69",
+									"host": [
+										"{{server_uri_v1}}"
+									],
+									"path": [
+										"users",
+										"juan.cardona69"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "find-paginated-users",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{bearer_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{server_uri_v1}}/users?active=true&page=0&size=3",
+									"host": [
+										"{{server_uri_v1}}"
+									],
+									"path": [
+										"users"
+									],
+									"query": [
+										{
+											"key": "active",
+											"value": "true"
+										},
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "size",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "change-user-status",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{bearer_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 2,\r\n    \"enabled\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{server_uri_v1}}/users/status",
+									"host": [
+										"{{server_uri_v1}}"
+									],
+									"path": [
+										"users",
+										"status"
+									],
+									"query": [
+										{
+											"key": "enable",
+											"value": "false",
+											"disabled": true
+										},
+										{
+											"key": "idUser",
+											"value": "2",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "change-user-roles",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{bearer_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 1,\r\n    \"roles\": [\"ROLE_USER\", \"ROLE_ADMIN\"]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{server_uri_v1}}/users/roles",
+									"host": [
+										"{{server_uri_v1}}"
+									],
+									"path": [
+										"users",
+										"roles"
+									],
+									"query": [
+										{
+											"key": "newRole",
+											"value": "ROLE_MONITOR",
+											"disabled": true
+										},
+										{
+											"key": "idUser",
+											"value": "2",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}

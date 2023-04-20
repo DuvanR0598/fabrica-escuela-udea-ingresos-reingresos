@@ -8,25 +8,35 @@ import org.springframework.data.repository.query.QueryByExampleExecutor;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public abstract class DatabaseAdapter<E,M, I, R extends JpaRepository<M, I> & QueryByExampleExecutor<M>> {
 
-    protected final R repository;
-    protected final EntityModelMapper<E, M> entityModelMapper;
+    private final R repository;
+    private final EntityModelMapper<E, M> entityModelMapper;
 
-    public M save(M model) {
-        return this.saveModel(model);
+    public M updateModel(M model) {
+        return this.repository.save(model);
     }
 
-    public M findById(I id) {
-        Optional<M> modelOptional = repository.findById(id);
-        return modelOptional.orElse(null);
+    public void saveEntity(E entity) {
+        this.repository.save(this.toModel(entity));
     }
 
-    public List<M> findByExample(E entity) {
-        return this.repository.findAll();
+    public Optional<M> findById(I id) {
+        return repository.findById(id);
+    }
+
+    public List<M> findAllByCriteria(Example<M> example) {
+        return this.repository.findAll(example);
+    }
+
+    public Optional<M> findOneByCriteria(Example<M> example) {
+        return this.repository.findOne(example);
+    }
+
+    public boolean existsByCriteria(Example<M> example) {
+        return this.repository.exists(example);
     }
 
     protected M toModel(E entity) {
@@ -36,9 +46,5 @@ public abstract class DatabaseAdapter<E,M, I, R extends JpaRepository<M, I> & Qu
     protected E toEntity(M model) {
         return this.entityModelMapper.toEntity(model);
     }
-
-    protected M saveModel(M model) {
-        return repository.save(model);
-    }
-
+    
 }

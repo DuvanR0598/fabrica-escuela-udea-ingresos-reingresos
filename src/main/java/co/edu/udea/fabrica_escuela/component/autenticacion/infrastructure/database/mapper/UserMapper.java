@@ -1,10 +1,10 @@
 package co.edu.udea.fabrica_escuela.component.autenticacion.infrastructure.database.mapper;
 
+import co.edu.udea.fabrica_escuela.component.autenticacion.domain.core.Role;
 import co.edu.udea.fabrica_escuela.component.autenticacion.domain.core.User;
-import co.edu.udea.fabrica_escuela.component.shared.infrastructure.database.mapper.EntityModelMapper;
-import co.edu.udea.fabrica_escuela.component.autenticacion.domain.core.EnumRole;
 import co.edu.udea.fabrica_escuela.component.autenticacion.infrastructure.database.UserData;
 import co.edu.udea.fabrica_escuela.component.autenticacion.infrastructure.database.repository.RoleRepository;
+import co.edu.udea.fabrica_escuela.component.shared.infrastructure.database.mapper.EntityModelMapper;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -27,10 +27,12 @@ public class UserMapper implements EntityModelMapper<User, UserData> {
                 .email(entity.getEmail())
                 .password(entity.getPassword())
                 .firstName(entity.getFirstName())
-                .middleName(entity.getLastName())
+                .lastName(entity.getLastName())
+                .phoneNumber(entity.getPhoneNumber())
+                .address(entity.getAddress())
                 .roles(entity.getAuthorities().stream()
-                        .map(grantedAuthority -> EnumRole.valueOf(grantedAuthority.getAuthority()))
-                        .map(this.roleRepository::findByRole)
+                        .map(grantedAuthority -> Role.EnumRole.valueOf(grantedAuthority.getAuthority()))
+                        .map(this.roleRepository::findByValue)
                         .filter(Optional::isPresent)
                         .map(Optional::get)
                         .collect(Collectors.toSet()))
@@ -52,9 +54,9 @@ public class UserMapper implements EntityModelMapper<User, UserData> {
                 .email(model.getEmail())
                 .password(model.getPassword())
                 .firstName(model.getFirstName())
-                .lastName(model.getMiddleName())
+                .lastName(model.getLastName())
                 .grantedAuthorities(model.getRoles().stream()
-                        .map(item -> new SimpleGrantedAuthority(item.getRole().name()))
+                        .map(item -> new SimpleGrantedAuthority(item.getValue().name()))
                         .collect(Collectors.toSet()))
                 .build();
     }

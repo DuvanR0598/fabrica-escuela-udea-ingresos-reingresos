@@ -1,6 +1,6 @@
 package co.edu.udea.fabrica_escuela.component.autenticacion.infrastructure.database;
 
-import co.edu.udea.fabrica_escuela.component.autenticacion.domain.core.EnumRole;
+import co.edu.udea.fabrica_escuela.component.autenticacion.domain.core.Role;
 import lombok.*;
 
 import javax.persistence.*;
@@ -21,6 +21,7 @@ public class RoleData {
 
     @Enumerated(EnumType.STRING)
     @NotNull
-    private EnumRole role;
+    @Column(name = "value")
+    private Role.EnumRole value;
 
 }

@@ -25,20 +25,22 @@ public class User implements UserDetails {
     private String phoneNumber;
     private String password;
     private String address;
-    private LocalDate registerDate;
     private Set<? extends GrantedAuthority> grantedAuthorities;
+    private boolean active;
 
     public static User build(UserData userData) {
         Set<GrantedAuthority> authorities = userData.getRoles()
                 .stream()
-                .map(role -> new SimpleGrantedAuthority(role.getRole().name()))
+                .map(role -> new SimpleGrantedAuthority(role.getValue().name()))
                 .collect(Collectors.toSet());
 
         return User.builder()
                 .username(userData.getUsername())
                 .firstName(userData.getFirstName())
-                .lastName(userData.getMiddleName())
+                .lastName(userData.getLastName())
                 .email(userData.getEmail())
+                .phoneNumber(userData.getPhoneNumber())
+                .address(userData.getAddress())
                 .password(userData.getPassword())
                 .grantedAuthorities(authorities)
                 .build();
@@ -76,6 +78,6 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return this.active;
     }
 }

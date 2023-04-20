@@ -1,8 +1,8 @@
 package co.edu.udea.fabrica_escuela.component.autenticacion.domain.core.command;
 
 
+import co.edu.udea.fabrica_escuela.component.autenticacion.domain.core.Role;
 import co.edu.udea.fabrica_escuela.component.autenticacion.domain.core.User;
-import co.edu.udea.fabrica_escuela.component.autenticacion.domain.core.EnumRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,8 +24,7 @@ public class UserRegisterCommand {
     private String phoneNumber;
     private String password;
     private String address;
-    private LocalDate registerDate;
-    private Set<EnumRole> roles;
+    private Set<Role> roles;
 
     public static User toEntity(UserRegisterCommand userRegisterCommand) {
         return User.builder()
@@ -35,7 +34,6 @@ public class UserRegisterCommand {
                 .email(userRegisterCommand.getEmail())
                 .phoneNumber(userRegisterCommand.getPhoneNumber())
                 .address(userRegisterCommand.getAddress())
-                .registerDate(userRegisterCommand.getRegisterDate())
                 .build();
 
     }

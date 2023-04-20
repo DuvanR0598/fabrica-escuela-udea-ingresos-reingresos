@@ -1,0 +1,70 @@
+version: "3.7"
+
+#volumes:
+#   prometheus_data:
+#     driver: local
+#   grafana_data:
+#     driver: local
+#   grafana_provisioning:
+#     driver: local
+#  mysql_volume:
+#    driver: local
+#  spc_logs_data:
+#    driver: local
+
+networks:
+  ingresos-reingresos-network:
+    name: ingresos-reingresos-network
+
+services:
+  mysql:
+    image: mysql:8.0.12
+    container_name: mysql
+    restart: always
+    networks:
+      - ingresos-reingresos-network
+    environment:
+      MYSQL_ROOT_PASSWORD: password123
+      MYSQL_DATABASE: ingresos_reingresos_db
+    volumes:
+      - ./mysql_volume:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+#  ingresos-reingresos-backend:
+#    image: juancamilo11/ingresos-reingresos-backend:1.0.0
+#    container_name: ingresos-reingresos-backend
+#    restart: always
+#    ports:
+#      - "8080:8080"
+##    volumes:
+##      - ingresos_y_reingresos_logs_data:/var/logs/ingresos-reingresos-backend
+#    environment:
+#      SERVER_PORT: 8080
+#      SPRINT_APPLICATION_NAME: ingresos-reingresos-backend
+#    networks:
+#      - ingresos-reingresos-network
+#    depends_on:
+#      - mysql
+#    deploy:
+#      replicas: 1
+#      resources:
+#        limits:
+#          cpus: "0.5"
+#          memory: 500M
+
+#  prometheus:
+#    image: prom/prometheus:latest
+#    ports:
+#      - "9090:9090"
+#    restart: always
+#    volumes:
+#      - prometheus_data:/etc/prometheus
+#  grafana:
+#    image: grafana/grafana:latest
+#    ports:
+#      - "3000:3000"
+#    restart: always
+#    volumes:
+#      - grafana_data:/var/lib/grafana
+#      - grafana_provisioning:/etc/grafana/provisioning

@@ -1,0 +1,11 @@
+# DOCKER VOLUMES
+mysql_volume
+
+# IntelliJ IDEA Files
+.idea
+
+# Docs
+docs
+
+# Git
+.gitignore
