@@ -2,7 +2,6 @@ package co.edu.udea.fabrica_escuela.component.admisiones.infrastructure.web.v1;
 
 import co.edu.udea.fabrica_escuela.component.admisiones.domain.core.command.AdmisionesExampleCommand;
 import co.edu.udea.fabrica_escuela.component.admisiones.domain.core.query.AdmisionesExampleQuery;
-import co.edu.udea.fabrica_escuela.component.admisiones.domain.service.AdmisionesExampleService;
 import co.edu.udea.fabrica_escuela.component.admisiones.infrastructure.web.v1.model.request.AdmisionesExampleRequestDto;
 import co.edu.udea.fabrica_escuela.component.shared.infrastructure.web.v1.interfaces.RestControllerUtils;
 import lombok.RequiredArgsConstructor;
@@ -15,8 +14,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(path = "/api/v1/example")
 @RequiredArgsConstructor
 public class AdmisionesExampleRestController implements RestControllerUtils {
-
-    private final AdmisionesExampleService admisionesExampleService;
 
     @PreAuthorize("hasAuthority('ROLE_SUPER_ADMIN')")
     @PostMapping(path = "", consumes = "application/json", produces = "application/json")

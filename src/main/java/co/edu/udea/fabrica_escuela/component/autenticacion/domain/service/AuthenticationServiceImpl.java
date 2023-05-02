@@ -53,7 +53,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public RestServiceResponse<JwtResponseDto> loginUser(UserLoginCommand userLoginCommand) {
         Authentication authentication =
                 this.authUtils.getAuthManagerBuilder()
-                        .getObject().authenticate(new UsernamePasswordAuthenticationToken(
+                        .getObject()
+                        .authenticate(new UsernamePasswordAuthenticationToken(
                                 userLoginCommand.getUsername(),
                                 userLoginCommand.getPassword())
                         );

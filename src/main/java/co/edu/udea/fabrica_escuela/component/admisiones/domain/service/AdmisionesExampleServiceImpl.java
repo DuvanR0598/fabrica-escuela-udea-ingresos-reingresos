@@ -7,6 +7,6 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @Builder(toBuilder = true)
-public class AdmisionesExampleServiceImpl implements AdmisionesExampleService {
+public class AdmisionesExampleServiceImpl {
 
 }
