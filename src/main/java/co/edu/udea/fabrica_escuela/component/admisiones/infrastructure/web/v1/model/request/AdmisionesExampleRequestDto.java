@@ -1,7 +1,10 @@
 package co.edu.udea.fabrica_escuela.component.admisiones.infrastructure.web.v1.model.request;
 
 import co.edu.udea.fabrica_escuela.component.admisiones.domain.core.command.AdmisionesExampleCommand;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter

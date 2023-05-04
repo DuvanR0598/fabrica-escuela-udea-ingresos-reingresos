@@ -26,14 +26,16 @@ public class JwtProvider {
         User user = (User) authentication.getPrincipal();
 
         return Jwts.builder()
-                .setSubject(user.getUsername())
+                .setSubject(user.getId().toString())
+                .claim("username", user.getUsername())
+                .claim("email", user.getEmail())
                 // --- We can add claims to the payload ---
                 //.addClaims(add some claims)
                 .claim("roles", user.getAuthorities()
                         .stream()
                         .map(GrantedAuthority::getAuthority)
                         .collect(Collectors.toList())
-                ).claim("email", user.getEmail())
+                )
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(new Date().getTime() + this.expiration * 1000L))
                 .signWith(SignatureAlgorithm.HS256, this.secret).compact();

@@ -16,6 +16,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,14 +41,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         // Encrypt the password
         userToRegister.setPassword(this.authUtils.getPasswordEncoder()
                 .encode(userRegisterCommand.getPassword()));
-
+        userToRegister.setActive(true);
         // Add authorities
-        userToRegister.setGrantedAuthorities(Set.of(new SimpleGrantedAuthority(Role.EnumRole.ROLE_USER.name())));
+        userToRegister.setGrantedAuthorities(Set.of(new SimpleGrantedAuthority(Role.EnumRole.ROLE_STUDENT.name())));
 
         this.userRepositoryGateway.saveUser(userToRegister);
         return RestServiceResponse.of(HttpStatus.CREATED);
     }
-
 
     @Override
     public RestServiceResponse<JwtResponseDto> loginUser(UserLoginCommand userLoginCommand) {
@@ -61,14 +61,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = this.authUtils.getJwtProvider().generateToken(authentication);
-//        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        User userDetails = (User) authentication.getPrincipal();
 
         JwtResponseDto jwtResponseDto = JwtResponseDto.builder()
                 .token(jwt)
                 .ok(Boolean.TRUE)
+                .firstName(userDetails.getFirstName())
+                .lastName(userDetails.getLastName())
                 .build();
 
-        return RestServiceResponse.of(HttpStatus.OK, jwtResponseDto);
+        return RestServiceResponse.of(HttpStatus.CREATED, jwtResponseDto);
     }
 
     @Override

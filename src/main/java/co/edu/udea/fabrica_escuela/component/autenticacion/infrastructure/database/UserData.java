@@ -1,13 +1,11 @@
 package co.edu.udea.fabrica_escuela.component.autenticacion.infrastructure.database;
 
 import lombok.*;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -83,9 +81,9 @@ public class UserData {
     private String address;
 
     @Column(
-            name = "active",
-            nullable = false
+            name = "active"
     )
+    @Type(type = "org.hibernate.type.NumericBooleanType")
     private boolean active;
 
     @NotEmpty

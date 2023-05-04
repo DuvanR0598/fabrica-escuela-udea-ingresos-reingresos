@@ -43,7 +43,7 @@ public class WebSecurityConfig {
         http
                 .cors().and()
                 .csrf().disable().authorizeRequests()
-                .antMatchers("/api/**/authentication/**").permitAll()
+                .antMatchers("/api/**/auth/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(jwtEntryPoint)

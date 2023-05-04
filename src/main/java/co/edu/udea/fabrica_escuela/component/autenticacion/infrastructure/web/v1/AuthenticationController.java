@@ -1,12 +1,13 @@
 package co.edu.udea.fabrica_escuela.component.autenticacion.infrastructure.web.v1;
 
-import co.edu.udea.fabrica_escuela.component.autenticacion.domain.core.command.UserRegisterCommand;
 import co.edu.udea.fabrica_escuela.component.autenticacion.domain.core.command.UserLoginCommand;
+import co.edu.udea.fabrica_escuela.component.autenticacion.domain.core.command.UserRegisterCommand;
 import co.edu.udea.fabrica_escuela.component.autenticacion.domain.core.query.RefreshTokenQuery;
 import co.edu.udea.fabrica_escuela.component.autenticacion.domain.service.AuthenticationService;
 import co.edu.udea.fabrica_escuela.component.autenticacion.infrastructure.web.v1.model.request.UserLoginRequestDto;
 import co.edu.udea.fabrica_escuela.component.autenticacion.infrastructure.web.v1.model.request.UserRegisterRequestDto;
 import co.edu.udea.fabrica_escuela.component.autenticacion.infrastructure.web.v1.model.response.JwtResponseDto;
+import co.edu.udea.fabrica_escuela.component.shared.domain.services.RestServiceResponse;
 import co.edu.udea.fabrica_escuela.component.shared.infrastructure.web.v1.interfaces.RestControllerUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,7 @@ import java.util.Objects;
  * No previous authentication is required.
  */
 @RestController
-@RequestMapping(path = "/api/v1/authentication")
+@RequestMapping(path = "/api/v1/auth")
 @RequiredArgsConstructor
 public class AuthenticationController implements RestControllerUtils {
 
@@ -51,7 +52,7 @@ public class AuthenticationController implements RestControllerUtils {
         }
         try {
         UserLoginCommand command = UserLoginRequestDto.toCommand(userLoginRequestDto);
-        var loginResult = this.authenticationService.loginUser(command);
+            var loginResult = this.authenticationService.loginUser(command);
         return ResponseEntity.status(loginResult.getStatusCode())
                 .body(loginResult.getResponse());
         } catch (Exception e) {

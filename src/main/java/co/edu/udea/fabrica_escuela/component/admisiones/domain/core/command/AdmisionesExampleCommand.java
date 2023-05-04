@@ -1,6 +1,9 @@
 package co.edu.udea.fabrica_escuela.component.admisiones.domain.core.command;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 @AllArgsConstructor
 @Getter

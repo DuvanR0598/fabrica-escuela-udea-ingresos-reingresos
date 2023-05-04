@@ -1,6 +1,5 @@
 package co.edu.udea.fabrica_escuela.component.autenticacion.infrastructure.web.v1.model.request;
 
-import co.edu.udea.fabrica_escuela.component.autenticacion.domain.core.Role;
 import co.edu.udea.fabrica_escuela.component.autenticacion.domain.core.command.UserRegisterCommand;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,8 +10,6 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import java.time.LocalDate;
-import java.util.Set;
 
 @Getter
 @Setter

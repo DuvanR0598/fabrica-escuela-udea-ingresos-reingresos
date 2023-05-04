@@ -40,7 +40,7 @@ public class UserRepositoryGatewayImpl
         UserData example = UserData.builder()
                 .username(username)
                 .build();
-        return this.findOneByCriteria(Example.of(example));
+        return this.repository.findByUsername(username);
     }
 
     @Override

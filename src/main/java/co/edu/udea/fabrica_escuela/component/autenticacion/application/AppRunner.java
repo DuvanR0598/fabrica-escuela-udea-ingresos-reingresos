@@ -19,17 +19,17 @@ public class AppRunner implements CommandLineRunner {
     public void run(String... args) throws Exception {
         RoleData roleData1 = RoleData.builder()
                 .id(1L)
-                .value(Role.EnumRole.ROLE_SUPER_ADMIN)
+                .value(Role.EnumRole.ROLE_TEACHER)
                 .build();
 
         RoleData roleData2 = RoleData.builder()
                 .id(2L)
-                .value(Role.EnumRole.ROLE_ADMIN)
+                .value(Role.EnumRole.ROLE_STUDENT)
                 .build();
 
         RoleData roleData3 = RoleData.builder()
                 .id(3L)
-                .value(Role.EnumRole.ROLE_USER)
+                .value(Role.EnumRole.ROLE_ADMIN)
                 .build();
         this.roleRepository.saveAll(List.of(roleData1, roleData2, roleData3));
     }

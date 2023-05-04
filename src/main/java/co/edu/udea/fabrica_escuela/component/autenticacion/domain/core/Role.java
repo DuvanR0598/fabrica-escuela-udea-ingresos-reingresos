@@ -15,8 +15,8 @@ public class Role {
     private EnumRole value;
 
     public enum EnumRole {
-        ROLE_SUPER_ADMIN,
+        ROLE_STUDENT,
         ROLE_ADMIN,
-        ROLE_USER
+        ROLE_TEACHER
     }
 }

@@ -8,7 +8,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
 import java.util.Set;
 
 @Getter
@@ -29,6 +28,7 @@ public class UserRegisterCommand {
     public static User toEntity(UserRegisterCommand userRegisterCommand) {
         return User.builder()
                 .username(userRegisterCommand.getEmail().split("@")[0].trim())
+                .password(userRegisterCommand.getPassword())
                 .firstName(userRegisterCommand.getFirstName())
                 .lastName(userRegisterCommand.getLastName())
                 .email(userRegisterCommand.getEmail())

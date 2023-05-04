@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.QueryByExampleExecutor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,7 +13,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public abstract class DatabaseAdapter<E,M, I, R extends JpaRepository<M, I> & QueryByExampleExecutor<M>> {
 
-    private final R repository;
+    protected final R repository;
     private final EntityModelMapper<E, M> entityModelMapper;
 
     public M updateModel(M model) {
