@@ -28,8 +28,6 @@ public class UserMapper implements EntityModelMapper<User, UserData> {
                 .password(entity.getPassword())
                 .firstName(entity.getFirstName())
                 .lastName(entity.getLastName())
-                .phoneNumber(entity.getPhoneNumber())
-                .address(entity.getAddress())
                 .active(entity.isActive())
                 .roles(entity.getAuthorities().stream()
                         .map(grantedAuthority -> Role.EnumRole.valueOf(grantedAuthority.getAuthority()))

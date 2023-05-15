@@ -32,8 +32,6 @@ public class UserRegisterCommand {
                 .firstName(userRegisterCommand.getFirstName())
                 .lastName(userRegisterCommand.getLastName())
                 .email(userRegisterCommand.getEmail())
-                .phoneNumber(userRegisterCommand.getPhoneNumber())
-                .address(userRegisterCommand.getAddress())
                 .build();
 
     }

@@ -30,16 +30,9 @@ public class UserRegisterRequestDto {
     private String lastName;
 
     @NotNull
-    @Length(min = 5, max = 50)
-    private String phoneNumber;
-
-    @NotNull
     @Length(min = 8, max = 20)
     private String password;
 
-    @NotNull
-    @Length(min = 5, max = 200)
-    private String address;
 
     public static UserRegisterCommand toRegisterUserCommand(UserRegisterRequestDto userRegisterRequestDto) {
         return UserRegisterCommand.builder()
@@ -47,9 +40,7 @@ public class UserRegisterRequestDto {
                 .firstName(userRegisterRequestDto.getFirstName())
                 .lastName(userRegisterRequestDto.getLastName())
                 .email(userRegisterRequestDto.getEmail())
-                .phoneNumber(userRegisterRequestDto.getPhoneNumber())
                 .password(userRegisterRequestDto.getPassword())
-                .address(userRegisterRequestDto.getAddress())
                 .build();
     }
 

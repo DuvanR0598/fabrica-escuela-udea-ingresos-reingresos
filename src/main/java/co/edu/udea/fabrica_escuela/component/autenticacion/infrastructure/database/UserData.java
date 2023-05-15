@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users_auth")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -59,26 +59,12 @@ public class UserData {
 
     @NotBlank
     @Column(
-            name = "phone_number",
-            length = 30,
-            nullable = false
-    )
-    private String phoneNumber;
-
-    @NotBlank
-    @Column(
             name = "password",
             length = 200,
             nullable = false
     )
     private String password;
 
-    @NotBlank
-    @Column(
-            name = "address",
-            nullable = false
-    )
-    private String address;
 
     @Column(
             name = "active"

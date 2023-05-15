@@ -21,9 +21,7 @@ public class User implements UserDetails {
     private String firstName;
     private String lastName;
     private String email;
-    private String phoneNumber;
     private String password;
-    private String address;
     private Set<? extends GrantedAuthority> grantedAuthorities;
     private boolean active;
 
@@ -38,8 +36,6 @@ public class User implements UserDetails {
                 .firstName(userData.getFirstName())
                 .lastName(userData.getLastName())
                 .email(userData.getEmail())
-                .phoneNumber(userData.getPhoneNumber())
-                .address(userData.getAddress())
                 .password(userData.getPassword())
                 .grantedAuthorities(authorities)
                 .active(userData.isActive())
